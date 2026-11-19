@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrés Hernández · I+D</title>
+<meta name="description" content="Investigación y desarrollo de software para laboratorio clínico, banco de sangre y formación en salud: herramientas que hacen el trabajo de las manos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3ede1; --surface:#fbf8f1; --ink:#2a2118; --muted:#6f6352; --line:#ddd2bf;
+  --accent:#9e4a2c; --gold:#a87a2e; --water:#36687f; --accent-soft:#efdccf; --gate-off:#cfc3ae;
+  --shadow:0 1px 2px rgba(60,40,20,.05),0 10px 30px rgba(60,40,20,.08);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16130f; --surface:#1f1a14; --ink:#efe6d6; --muted:#a89a85; --line:#3a3127;
+  --accent:#d98a62; --gold:#d6aa5a; --water:#7fb2c9; --accent-soft:#3a2619; --gate-off:#4a4034;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+  --bg:#16130f; --surface:#1f1a14; --ink:#efe6d6; --muted:#a89a85; --line:#3a3127;
+  --accent:#d98a62; --gold:#d6aa5a; --water:#7fb2c9; --accent-soft:#3a2619; --gate-off:#4a4034;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 "Spectral",Georgia,serif;-webkit-font-smoothing:antialiased}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+a{color:var(--accent)}
+section{padding:96px 0}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;line-height:1.1;margin:0;text-wrap:balance}
+h2{font-size:clamp(2rem,4.5vw,2.8rem);margin-bottom:14px}
+.eyebrow{font:500 .74rem/1 "IBM Plex Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.lead{color:var(--muted);max-width:62ch}
+.rule{height:14px;margin:0 auto;max-width:1080px;opacity:.55;
+  background:repeating-linear-gradient(90deg,var(--gold) 0 2px,transparent 2px 14px);mask:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+nav strong{font:600 1.25rem "Cormorant Garamond",serif;letter-spacing:.04em}
+nav .links{display:flex;gap:22px}
+nav .links a{color:var(--muted);text-decoration:none;font-size:.95rem}
+nav .links a:hover{color:var(--ink)}
+@media (max-width:560px){nav .links a:not(:last-child){display:none}}
+
+/* hero */
+.hero{padding:96px 0 80px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+@media (max-width:820px){.hero .wrap{grid-template-columns:1fr}.hero .mill{max-width:260px;margin:0 auto;order:-1}}
+.hero h1{font-size:clamp(2.6rem,6.5vw,4.6rem);font-weight:600;letter-spacing:-.01em}
+.hero h1 em{color:var(--accent)}
+.hero p.lead{font-size:1.12rem;margin:22px 0 32px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 24px;border-radius:2px;text-decoration:none;font:500 .95rem "Spectral",serif;border:1px solid var(--accent);transition:transform .2s,background .2s,color .2s;letter-spacing:.02em}
+.btn.primary{background:var(--accent);color:var(--surface)}
+.btn.ghost{color:var(--accent)}
+.btn.ghost:hover{background:var(--accent-soft)}
+.btn:hover{transform:translateY(-2px)}
+
+/* rueda hidráulica */
+.mill svg{width:100%;height:auto;display:block;overflow:visible}
+.wheel{transform-origin:150px 150px;animation:spin 14s linear infinite}
+.flow{stroke-dasharray:6 10;animation:flow 1.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes flow{to{stroke-dashoffset:-32}}
+
+/* epigrama */
+.epigram{padding:72px 0;text-align:center;background:var(--surface);border-block:1px solid var(--line)}
+.epigram blockquote{margin:0 auto;max-width:44ch;font:italic 500 clamp(1.3rem,2.8vw,1.75rem)/1.45 "Cormorant Garamond",serif}
+.epigram blockquote::before{content:"“";display:block;font-size:4rem;line-height:.6;color:var(--gold);margin-bottom:14px}
+.epigram cite{display:block;margin-top:22px;font:500 .75rem "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-style:normal}
+
+/* fases */
+.gates{list-style:none;padding:0;margin:48px 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.gates li{position:relative;padding:58px 14px 0 0}
+.gates li .num{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid var(--gold);color:var(--gold);background:var(--bg);font:600 1.1rem "Cormorant Garamond",serif;z-index:1}
+.gates li::after{content:"";position:absolute;top:20px;left:42px;right:0;height:1px;background:var(--gold);transform-origin:left;transform:scaleX(0);transition:transform .7s ease}
+.gates li:last-child::after{display:none}
+.gates.visible li::after{transform:scaleX(1)}
+.gates.visible li:nth-child(2)::after{transition-delay:.15s}
+.gates.visible li:nth-child(3)::after{transition-delay:.3s}
+.gates.visible li:nth-child(4)::after{transition-delay:.45s}
+.gates h3{font-size:1.4rem;margin-bottom:6px}
+.gates p{font-size:.92rem;color:var(--muted);margin:0}
+.gates .gate{display:block;font:italic .88rem "Spectral",serif;color:var(--accent);margin-top:8px}
+@media (max-width:760px){
+  .gates{grid-template-columns:1fr;gap:28px}
+  .gates li{padding:4px 0 0 60px}
+  .gates li::after{top:42px;left:20px;right:auto;bottom:-28px;width:1px;height:auto;transform:scaleY(0);transform-origin:top}
+  .gates.visible li::after{transform:scaleY(1)}
+}
+
+/* ahorro global */
+.savings{padding:64px 0;background:var(--ink);color:var(--bg)}
+.savings .eyebrow{color:var(--gold)}
+.savings h2{color:var(--bg)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;margin-top:28px}
+.stat b{display:block;font:600 clamp(3rem,7vw,4.2rem)/1 "Cormorant Garamond",serif;color:var(--gold)}
+.stat span{opacity:.75;font-size:.95rem}
+.note{font-size:.82rem;opacity:.6;margin-top:24px}
+
+/* proyectos */
+.projects{display:grid;gap:32px;margin-top:48px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);overflow:hidden;
+  display:grid;grid-template-columns:1.25fr 1fr;transition:transform .3s,border-color .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--gold)}
+@media (max-width:820px){.card{grid-template-columns:1fr}}
+.card .body{padding:32px}
+.card .roman{font:600 .95rem "Cormorant Garamond",serif;color:var(--gold);letter-spacing:.1em}
+.card h3{font-size:1.85rem;margin:2px 0 4px}
+.card .sub{color:var(--muted);font-style:italic;margin-bottom:20px}
+.card dl{margin:0;display:grid;gap:14px}
+.card dt{font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.card dd{margin:3px 0 0}
+.card ul{margin:4px 0 0;padding-left:18px}
+.card li::marker{color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font:500 .74rem "IBM Plex Mono",monospace;padding:3px 10px;border:1px solid var(--line);border-radius:2px;color:var(--muted);background:var(--bg)}
+.side{background:var(--bg);border-left:1px solid var(--line);padding:32px;display:flex;flex-direction:column;gap:26px}
+@media (max-width:820px){.side{border-left:0;border-top:1px solid var(--line)}}
+.shot{aspect-ratio:16/10;border:1px dashed var(--gate-off);display:grid;place-items:center;text-align:center;
+  color:var(--muted);font:500 .78rem "IBM Plex Mono",monospace;padding:12px;background:var(--surface)}
+.shot img{width:100%;height:100%;object-fit:cover}
+
+/* barras antes/después */
+.side h4{margin:0 0 12px;font:500 .7rem "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.bar{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:10px;font-size:.86rem;margin-bottom:9px}
+.bar .track{height:8px;background:var(--line);overflow:hidden}
+.bar .fill{height:100%;width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar.before .fill{background:var(--accent)}
+.bar.after .fill{background:var(--water)}
+.bar .val{font-family:"IBM Plex Mono",monospace;font-size:.8rem;white-space:nowrap}
+.saved{margin-top:12px}
+.saved b{font:600 1.7rem "Cormorant Garamond",serif;color:var(--accent)}
+.todo{color:var(--accent);font-family:"IBM Plex Mono",monospace;font-size:.82rem}
+
+/* mini fase */
+.mini{display:flex;align-items:center}
+.mini i{width:13px;height:13px;border-radius:50%;border:1px solid var(--gate-off);flex:none}
+.mini i.on{background:var(--gold);border-color:var(--gold)}
+.mini i.now{border:2px solid var(--gold);animation:pulse 2s infinite}
+.mini i.stop{border:2px solid var(--accent);background:linear-gradient(45deg,transparent 42%,var(--accent) 42% 58%,transparent 58%)}
+.mini s{flex:1;height:1px;background:var(--gate-off)}
+.mini s.on{background:var(--gold)}
+.mini-label{font-size:.88rem;color:var(--muted);margin-top:8px;font-style:italic}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--accent-soft)}50%{box-shadow:0 0 0 6px var(--accent-soft)}}
+
+/* stack + contacto */
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.stack .chip{font-size:.84rem;padding:6px 12px}
+.contact{text-align:center}
+.contact .eyebrow{justify-content:center}
+.contact .lead{margin:0 auto 30px}
+.contact .btns{justify-content:center}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:.86rem;text-align:center;font-style:italic}
+
+/* aparición */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <strong>A · H</strong>
+  <div class="links"><a href="#metodo">Método</a><a href="#proyectos">Obras</a><a href="#contacto">Contacto</a></div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <div class="eyebrow">Investigación y desarrollo · Salud</div>
+    <h1>Que las ninfas muevan la <em>rueda</em>.</h1>
+    <p class="lead">Soy Andrés Hernández. Busco el trabajo manual y repetitivo del laboratorio, el banco de sangre y la formación clínica, y construyo herramientas que lo hacen por las personas. Así el equipo dedica su tiempo a lo que solo una persona puede hacer.</p>
+    <div class="btns"><a class="btn primary" href="#proyectos">Ver las obras</a><a class="btn ghost" href="#contacto">Contacto</a></div>
+  </div>
+  <div class="mill" aria-hidden="true">
+    <svg viewBox="0 0 300 320" fill="none">
+      <path class="flow" d="M10 40 C80 40 110 40 150 52" stroke="var(--water)" stroke-width="3" stroke-linecap="round"/>
+      <path class="flow" d="M10 54 C80 54 110 54 146 64" stroke="var(--water)" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+      <g class="wheel" stroke="var(--ink)" stroke-width="2">
+        <circle cx="150" cy="150" r="105"/>
+        <circle cx="150" cy="150" r="88" opacity=".5"/>
+        <circle cx="150" cy="150" r="14" fill="var(--gold)" stroke="none"/>
+        <g id="spokes">
+          <line x1="150" y1="45" x2="150" y2="255"/>
+          <line x1="45" y1="150" x2="255" y2="150"/>
+          <line x1="75.8" y1="75.8" x2="224.2" y2="224.2"/>
+          <line x1="224.2" y1="75.8" x2="75.8" y2="224.2"/>
+        </g>
+        <g fill="var(--accent)" stroke="none">
+          <rect x="143" y="30" width="14" height="22"/>
+          <rect x="143" y="248" width="14" height="22"/>
+          <rect x="30" y="143" width="22" height="14"/>
+          <rect x="248" y="143" width="22" height="14"/>
+          <rect x="143" y="30" width="14" height="22" transform="rotate(45 150 150)"/>
+          <rect x="143" y="30" width="14" height="22" transform="rotate(135 150 150)"/>
+          <rect x="143" y="30" width="14" height="22" transform="rotate(225 150 150)"/>
+          <rect x="143" y="30" width="14" height="22" transform="rotate(315 150 150)"/>
+        </g>
+      </g>
+      <path d="M20 300 Q80 285 150 300 T290 300" stroke="var(--water)" stroke-width="2" opacity=".5"/>
+      <path d="M40 312 Q100 298 160 312 T290 310" stroke="var(--water)" stroke-width="1.5" opacity=".3"/>
+    </svg>
+  </div>
+</div></header>
+
+<div class="epigram"><div class="wrap reveal">
+  <blockquote>Dejad de moler, mujeres del molino; dormid hasta tarde aunque el gallo anuncie el alba. Deméter ha mandado a las ninfas hacer el trabajo de vuestras manos.</blockquote>
+  <cite>Antípatro de Tesalónica · siglo I a. C. · sobre el primer molino de agua</cite>
+</div></div>
+
+<section id="metodo"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Método</div>
+    <h2>Del grano a la harina, en cinco fases</h2>
+    <p class="lead">Trabajo con un esquema <em>Phase-Gate</em>. Al cerrar cada fase hay una revisión en la que se decide si el proyecto sigue, se pausa o se descarta. Una rueda solo se construye donde corre el agua.</p>
+  </div>
+  <ol class="gates reveal">
+    <li><span class="num">I</span><h3>Idea</h3><p>Ver el proceso en sitio y medir cuánto tiempo toma hoy.</p><span class="gate">¿Vale la pena?</span></li>
+    <li><span class="num">II</span><h3>Viabilidad</h3><p>Fuentes de datos, interfaces del equipo, normativa.</p><span class="gate">¿Es posible?</span></li>
+    <li><span class="num">III</span><h3>Prototipo</h3><p>Versión mínima con datos reales en un entorno aislado.</p><span class="gate">¿Resuelve el problema?</span></li>
+    <li><span class="num">IV</span><h3>Validación</h3><p>Pruebas con el personal, ajustes y medición del ahorro.</p><span class="gate">¿Lo adoptan?</span></li>
+    <li><span class="num">V</span><h3>Producción</h3><p>Ejecutable o servicio, manual de uso y soporte.</p><span class="gate">Seguimiento</span></li>
+  </ol>
+</div></section>
+
+<div class="savings"><div class="wrap reveal">
+  <div class="eyebrow">El trabajo de las manos</div>
+  <h2>Horas devueltas a las personas</h2>
+  <div class="stats">
+    <div class="stat"><b data-count="horas">0</b><span>horas de trabajo manual ahorradas al mes</span></div>
+    <div class="stat"><b data-count="acum">0</b><span>horas acumuladas desde que cada rueda empezó a girar</span></div>
+    <div class="stat"><b data-count="produccion">0</b><span>ruedas girando en producción</span></div>
+  </div>
+  <p class="note" id="nota-ahorro"></p>
+</div></div>
+
+<section id="proyectos"><div class="wrap">
+  <div class="reveal">
+    <div class="eyebrow">Obras</div>
+    <h2>Casos de estudio</h2>
+    <p class="lead">Cada obra muestra el trabajo que antes se hacía a mano, lo que se construyó, cuánto tiempo devuelve al mes y en qué fase va.</p>
+  </div>
+
+  <div class="projects">
+
+    <article class="card reveal" data-id="abrehojas">
+      <div class="body">
+        <div class="roman">I</div>
+        <h3>Abrehojas 3000</h3>
+        <div class="sub">Generador de reportes de aspirado de médula ósea (formato LAB-R-64)</div>
+        <dl>
+          <dt>Antes</dt>
+          <dd>Cada reporte de aspirado se armaba a mano copiando los datos del LIS a la plantilla de Excel, paciente por paciente. Además, las órdenes duplicadas por errores de facturación causaban reportes repetidos.</dd>
+          <dt>Qué construí</dt>
+          <dd><ul>
+            <li>Lee la exportación del LIS y genera un Excel LAB-R-64 por paciente.</li>
+            <li>Detecta las órdenes duplicadas de una misma historia clínica y pregunta cuál es la válida.</li>
+            <li>Interfaz gráfica y ejecutable de un clic para el personal del laboratorio.</li>
+          </ul></dd>
+          <dt>Tecnología</dt>
+          <dd class="chips"><span class="chip">Python</span><span class="chip">openpyxl</span><span class="chip">Tkinter</span><span class="chip">PyInstaller</span></dd>
+        </dl>
+      </div>
+      <div class="side">
+        <div class="shot">Captura con datos ficticios<br>img/abrehojas.webp</div>
+        <div class="time"></div>
+        <div class="phase"></div>
+      </div>
+    </article>
+
+    <article class="card reveal" data-id="edcnet">
+      <div class="body">
+        <div class="roman">II</div>
+        <h3>Middleware de control de calidad externo</h3>
+        <div class="sub">Abbott Alinity ci → EDCNet (NRL QConnect) · Banco de sangre</div>
+        <dl>
+          <dt>Antes</dt>
+          <dd>Los resultados de control de calidad (controles de kit y EQC) se transcribían a mano a EDCNet, y los informes impresos se armaban uniendo PDFs y anotando lotes y vencimientos.</dd>
+          <dt>Qué construí</dt>
+          <dd><ul>
+            <li>Parser de tramas ASTM LIS2-A2 de los logs del equipo, que extrae los controles con su lote, operador y módulo.</li>
+            <li>Genera el CSV de EDCNet, pide la subida inmediata al agente y consulta el resultado (guardados, duplicados y fallas).</li>
+            <li>Avisa cuando un valor está fuera de los límites y cuando un lote está por vencer.</li>
+            <li>Une los informes PDF del día, ordenados por prueba, con una tabla de lotes por corrida.</li>
+            <li>Documenté comportamientos del agente 1.5 que la guía oficial no describe.</li>
+          </ul></dd>
+          <dt>Tecnología</dt>
+          <dd class="chips"><span class="chip">Python</span><span class="chip">ASTM LIS2-A2</span><span class="chip">Named pipes .NET</span><span class="chip">pypdf</span><span class="chip">Tkinter</span></dd>
+        </dl>
+      </div>
+      <div class="side">
+        <div class="shot">Captura de la interfaz<br>img/edcnet.webp</div>
+        <div class="time"></div>
+        <div class="phase"></div>
+      </div>
+    </article>
+
+    <article class="card reveal" data-id="inc">
+      <div class="body">
+        <div class="roman">III</div>
+        <h3>App de entrenamiento de enfermería</h3>
+        <div class="sub">Instituto Nacional de Cancerología</div>
+        <dl>
+          <dt>Qué construí</dt>
+          <dd>App instalable con módulos de formación, quiz, rankings y certificados.</dd>
+          <dt>Tecnología</dt>
+          <dd class="chips"><span class="chip">React</span><span class="chip">Ionic</span><span class="chip">Capacitor</span><span class="chip">PWA</span><span class="chip">Vite</span><span class="chip">Cypress</span><span class="chip">Vercel</span></dd>
+        </dl>
+      </div>
+      <div class="side">
+        <div class="shot">Captura de la app<br>img/inc.webp</div>
+        <div class="time"></div>
+        <div class="phase"></div>
+      </div>
+    </article>
+
+    <article class="card reveal" data-id="captacion">
+      <div class="body">
+        <div class="roman">IV</div>
+        <h3>Panel de captación de donantes</h3>
+        <div class="sub">Banco de sangre · aféresis plaquetaria</div>
+        <dl>
+          <dt>Antes</dt>
+          <dd>La programación de donantes vivía en un Excel con una hoja por semana. El call center no tenía historial de contacto, y pedir las recogidas y avisar los cambios al transporte era un proceso manual.</dd>
+          <dt>Qué construí</dt>
+          <dd><ul>
+            <li>Migración automática del Excel histórico, que interpreta colores, notas y estados.</li>
+            <li>Panel de call center con cola priorizada, agenda por sede, seguimientos y registro de llamadas.</li>
+            <li>Integración con WhatsApp Business, con detección de bajas y una cola con límite diario de envíos.</li>
+            <li>Correo de recogidas que se genera solo con las novedades, más el tiempo estimado en carro con un tope de costo.</li>
+            <li>Actualización automática con reversión, respaldos verificados y cumplimiento de la Ley 1581.</li>
+          </ul></dd>
+          <dt>Tecnología</dt>
+          <dd class="chips"><span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">PostgreSQL</span><span class="chip">Supabase</span><span class="chip">Evolution API</span><span class="chip">PM2</span><span class="chip">Google Routes</span></dd>
+        </dl>
+      </div>
+      <div class="side">
+        <div class="shot">Captura con datos ficticios<br>img/captacion.webp</div>
+        <div class="time"></div>
+        <div class="phase"></div>
+      </div>
+    </article>
+
+    <article class="card reveal" data-id="remisiones">
+      <div class="body">
+        <div class="roman">V</div>
+        <h3>Generador de estadísticas para remisiones</h3>
+        <div class="sub">Instituto Nacional de Cancerología · en uso desde noviembre de 2025</div>
+        <dl>
+          <dt>Antes</dt>
+          <dd>Las remisiones llegan como documentos Word, cada una con su fecha y una tabla de pruebas (CUPS, cantidad y descripción). Para la estadística del mes había que abrir cada documento y contar las pruebas por día a mano.</dd>
+          <dt>Qué construí</dt>
+          <dd><ul>
+            <li>Lee en lote los .docx del mes y encuentra en cada uno la tabla CUPS y la fecha de la remisión.</li>
+            <li>Detecta el mes por el nombre del archivo y excluye (o advierte) las remisiones con fechas de otro mes.</li>
+            <li>Unifica las descripciones de un mismo CUPS escritas de distintas formas.</li>
+            <li>Exporta a Excel una matriz de CUPS por día del mes, con totales y porcentaje de cada prueba.</li>
+            <li>Interfaz gráfica y ejecutable para el personal.</li>
+          </ul></dd>
+          <dt>Tecnología</dt>
+          <dd class="chips"><span class="chip">Python</span><span class="chip">python-docx</span><span class="chip">openpyxl</span><span class="chip">Tkinter</span><span class="chip">PyInstaller</span></dd>
+        </dl>
+      </div>
+      <div class="side">
+        <div class="shot">img/remisiones.webp</div>
+        <div class="time"></div>
+        <div class="phase"></div>
+      </div>
+    </article>
+
+  </div>
+</div></section>
+
+<div class="rule"></div>
+
+<section><div class="wrap reveal">
+  <div class="eyebrow">Herramientas</div>
+  <h2>Con qué se construyen las ruedas</h2>
+  <div class="stack">
+    <span class="chip">Python</span><span class="chip">Tkinter</span><span class="chip">PyInstaller</span><span class="chip">ASTM / LIS</span>
+    <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">PostgreSQL</span><span class="chip">Supabase</span>
+    <span class="chip">React</span><span class="chip">Ionic</span><span class="chip">Capacitor</span><span class="chip">PWA</span>
+    <span class="chip">Cypress</span><span class="chip">PM2</span><span class="chip">Git</span>
+  </div>
+</div></section>
+
+<section id="contacto" class="contact"><div class="wrap reveal">
+  <div class="eyebrow">Contacto</div>
+  <h2>¿Dónde siguen moliendo a mano?</h2>
+  <p class="lead">Cuéntame qué proceso te quita tiempo: cuánto toma hoy, qué datos ya existen y qué tendría que pasar para que el equipo lo adopte.</p>
+  <div class="btns">
+    <a class="btn primary" href="mailto:afhernandez@javeriana.edu.co">Correo</a>
+    <a class="btn ghost" href="https://www.linkedin.com/in/andresfhernandezc/">LinkedIn</a>
+    <a class="btn ghost" href="https://github.com/nxfortuna">GitHub</a>  </div>
+</div></section>
+
+<footer><div class="wrap">© <span id="year"></span> Andrés Hernández · Capturas con datos ficticios</div></footer>
+
+<script>
+/* ===== Datos editables =====
+   antes_min / despues_min: minutos por ciclo (un reporte, un envío, una cita...)
+   veces_mes: cuántas veces ocurre ese ciclo al mes
+   horas_mes: si solo se conoce el ahorro mensual total, ponerlo aquí (reemplaza el cálculo).
+   desde: "AAAA-MM" en que entró en uso; se muestra el ahorro acumulado hasta hoy.
+   fase: fases superadas (0-5). 5 = en producción. null = sin definir.
+   detenido: true si el proyecto se paró en el gate de la fase `fase` (no suma ahorro).
+   Lo que quede en null se muestra como [COMPLETAR] y no se suma. */
+const PROYECTOS = {
+  abrehojas:  { ciclo: "reporte",            antes_min: 5, despues_min: 10 / 6 / 60, veces_mes: 6 * 25, desde: "2026-09", fase: 5 }, // ~6/día; 10 s el lote de 6; 25 días/mes
+  edcnet:     { ciclo: "1 h diaria, lunes a sábado", horas_mes: 25, desde: "2026-10", fase: 5 }, // (365 − 52 domingos − 18 festivos) / 12 ≈ 25 días/mes
+  inc:        { ciclo: "capacitación",       fase: 3, detenido: true }, // construida, pero no se implementó
+  captacion:  { ciclo: "cita agendada",      antes_min: null, despues_min: null, veces_mes: null, fase: 4 },
+  remisiones: { ciclo: "informe mensual",    horas_mes: 3, desde: "2025-11", fase: 5 },
+};
+const FASES = ["Idea", "Viabilidad", "Prototipo", "Validación", "Producción"];
+
+const fmtMin = m => m >= 60 ? (m / 60).toFixed(m % 60 ? 1 : 0) + " h" : m >= 1 ? Math.round(m) + " min" : Math.max(1, Math.round(m * 60)) + " s";
+const medido = p => [p.antes_min, p.despues_min, p.veces_mes].every(v => typeof v === "number");
+const horasMes = p => typeof p.horas_mes === "number" ? p.horas_mes
+  : medido(p) ? Math.max(0, p.antes_min - p.despues_min) * p.veces_mes / 60 : 0;
+const tieneAhorro = p => horasMes(p) > 0;
+const MESES = ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."];
+function mesesEnUso(p) {
+  if (!p.desde) return 0;
+  const [a, m] = p.desde.split("-").map(Number), hoy = new Date();
+  return Math.max(0, (hoy.getFullYear() - a) * 12 + hoy.getMonth() + 1 - m);
+}
+function acumulado(p) {
+  const meses = mesesEnUso(p);
+  if (!meses || !tieneAhorro(p)) return "";
+  const [a, m] = p.desde.split("-").map(Number);
+  return `<div class="mini-label">≈ ${Math.round(horasMes(p) * meses)} h acumuladas desde ${MESES[m - 1]} ${a}</div>`;
+}
+
+for (const card of document.querySelectorAll(".card[data-id]")) {
+  const p = PROYECTOS[card.dataset.id];
+  const time = card.querySelector(".time");
+  if (medido(p)) {
+    const max = Math.max(p.antes_min, p.despues_min) || 1;
+    time.innerHTML = `<h4>Tiempo por ${p.ciclo}</h4>
+      <div class="bar before"><span>A mano</span><div class="track"><div class="fill" data-w="${p.antes_min / max * 100}"></div></div><span class="val">${fmtMin(p.antes_min)}</span></div>
+      <div class="bar after"><span>Rueda</span><div class="track"><div class="fill" data-w="${p.despues_min / max * 100}"></div></div><span class="val">${fmtMin(p.despues_min)}</span></div>
+      <div class="saved"><b>${Math.round(horasMes(p))} h</b> devueltas al mes <span class="mono" style="color:var(--muted);font-size:.78rem">(${p.veces_mes}/mes)</span></div>${acumulado(p)}`;
+  } else if (p.detenido) {
+    time.remove();
+  } else if (tieneAhorro(p)) {
+    time.innerHTML = `<h4>Tiempo ahorrado · ${p.ciclo}</h4>
+      <div class="saved"><b>${horasMes(p)} h</b> de trabajo manual devueltas al mes</div>${acumulado(p)}`;
+  } else {
+    time.remove(); // sin medir: no se muestra al cliente
+  }
+  const phase = card.querySelector(".phase");
+  if (p.detenido) {
+    phase.remove();
+  } else if (p.fase == null) {
+    phase.innerHTML = `<h4>Fase</h4><div class="todo">[COMPLETAR]</div>`;
+  } else {
+    let dots = "";
+    FASES.forEach((_, i) => {
+      const cls = i < p.fase ? "on" : i === p.fase ? (p.detenido ? "stop" : "now") : "";
+      dots += `<i class="${cls}" title="${FASES[i]}"></i>` + (i < 4 ? `<s class="${i < p.fase - 1 ? "on" : ""}"></s>` : "");
+    });
+    phase.innerHTML = `<h4>Fase</h4><div class="mini" role="img" aria-label="Fase: ${FASES[Math.min(p.fase, 4)]}">${dots}</div>
+      <div class="mini-label">${p.fase >= 5 ? "En producción" : p.detenido ? `Detenido en el gate de ${FASES[p.fase]}: no se implementó` : "En curso: " + FASES[p.fase]}</div>`;
+  }
+}
+
+// Totales globales
+const lista = Object.values(PROYECTOS);
+const totalH = lista.reduce((s, p) => s + horasMes(p), 0);
+const totales = { horas: Math.round(totalH), acum: Math.round(lista.reduce((s, p) => s + horasMes(p) * mesesEnUso(p), 0)), produccion: lista.filter(p => p.fase >= 5).length };
+document.getElementById("nota-ahorro").textContent = "* Ahorro = (minutos antes − minutos después) × veces al mes, en los proyectos medidos.";
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function contar(el) {
+  const fin = totales[el.dataset.count];
+  if (reduce || !fin) { el.textContent = fin; return; }
+  const t0 = performance.now(), dur = 1400;
+  const paso = t => {
+    const k = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(fin * (1 - Math.pow(1 - k, 3)));
+    if (k < 1) requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+  setTimeout(() => el.textContent = fin, dur + 200); // rAF se pausa en pestañas ocultas
+}
+
+// Aparición al hacer scroll
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) {
+    if (!e.isIntersecting) continue;
+    e.target.classList.add("visible");
+    e.target.querySelectorAll(".fill").forEach(f => f.style.width = f.dataset.w + "%");
+    e.target.querySelectorAll("[data-count]").forEach(contar);
+    io.unobserve(e.target);
+  }
+}, { threshold: 0.15 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
