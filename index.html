@@ -53,8 +53,11 @@ nav .links a:hover{color:var(--ink)}
 .btn:active{transform:scale(.98)}
 
 /* hero */
-.hero{padding:80px 0 96px}
-.hero .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:center}
+.hero{padding:24px 0 72px}
+.stage{position:relative;overflow:hidden;border-radius:16px;background:#0f0f12;color:var(--ink);
+  --ink:#ececef;--muted:#b4b4bd;--line:#2a2a31;--accent:#8ea2ff;--accent-ink:#0f0f12;--accent-soft:#1c2140}
+.stage .gascii{position:absolute;top:0;left:0;right:0;width:auto;height:clamp(260px,30vw,380px)}
+.stage-in{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:end;padding:clamp(200px,22vw,280px) 48px 44px}
 .eyebrow{font:500 .75rem "Geist Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
 .hero h1{font-size:clamp(2.3rem,4.6vw,3.4rem);line-height:1.08;letter-spacing:-.035em}
 .hero h1 span{color:var(--accent)}
@@ -62,7 +65,6 @@ nav .links a:hover{color:var(--ink)}
 .caveman{margin:0;justify-self:end;width:100%;max-width:553px;background:#0f0f12;border:1px solid var(--line);border-radius:var(--radius);padding:0}
 .caveman{position:relative;overflow:hidden}
 .caveman .scr{position:relative;z-index:1}
-.caveman .gascii{position:absolute;inset:0;width:auto;height:auto}
 .gradient-ascii-container{position:relative;width:100%;height:100%;overflow:hidden}
 .gradient-ascii-canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
 .caveman img{display:block;width:100%;height:auto}
@@ -77,8 +79,9 @@ nav .links a:hover{color:var(--ink)}
 .impact .stat > span{color:var(--muted);font-size:.92rem;line-height:1.4;display:block;max-width:30ch}
 @media (max-width:860px){.caveman{justify-self:center}.impact .wrap{grid-template-columns:1fr 1fr;gap:28px}.impact .big{grid-column:1 / -1}}
 @media (max-width:860px){
-  .hero{padding:48px 0 64px}
-  .hero .wrap{grid-template-columns:1fr;gap:40px}
+  .hero{padding:16px 0 56px}
+  .stage-in{grid-template-columns:1fr;gap:36px;padding:200px 20px 24px}
+  .stage .gascii{height:270px}
   .hero .sub{font-size:1.05rem;margin:18px 0 28px}
 }
 
@@ -144,15 +147,15 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
   <div class="links"><a href="#proyectos">Proyectos</a><a href="#contacto">Contacto</a></div>
 </div></nav>
 
-<header class="hero"><div class="wrap">
+<header class="hero"><div class="wrap"><div class="stage"><div class="gascii"></div><div class="stage-in">
   <div>
     <div class="eyebrow">Investigación y desarrollo en salud</div>
     <h1>Menos trabajo manual, <span>más tiempo</span> para lo clínico.</h1>
     <p class="sub">Construyo herramientas que hacen el trabajo repetitivo del laboratorio clínico y el banco de sangre.</p>
     <div class="btns"><a class="btn primary" href="#proyectos">Ver proyectos</a><a class="btn ghost" href="#contacto">Contacto</a></div>
   </div>
-  <figure class="caveman" aria-hidden="true"><div class="gascii"></div><div class="scr"><img src="img/caveman.webp" alt="" width="1014" height="1014" decoding="async"><canvas></canvas></div></figure>
-</div></header>
+  <figure class="caveman" aria-hidden="true"><div class="scr"><img src="img/caveman.webp" alt="" width="1014" height="1014" decoding="async"><canvas></canvas></div></figure>
+</div></div></div></header>
 
 <div class="impact"><div class="wrap reveal" aria-label="Impacto medido">
   <div class="stat big"><b class="num"><span data-count="horas">0</span><small>h/mes</small></b><span>de trabajo manual que ya no hace nadie</span></div>
@@ -297,10 +300,10 @@ const io = new IntersectionObserver(entries => {
   }
 }, { threshold: 0.15 });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-// Fondo del panel: GradientASCII (React Bits), luz cobalto que sube desde abajo
-mountGradientASCII(document.querySelector(".caveman .gascii"), {
-  colors: ["#1e3fd8", "#4f6bff", "#8ea2ff", "#dfe5ff"], shape: "rise", cellSize: 14,
-  density: 0.7, glyphOpacity: 0.6, gradientOpacity: 0.55, glow: 0.25, grain: 0.06, clickEffect: "wave", intro: false
+// Banner del hero: GradientASCII (React Bits), cielo sobre un horizonte oscuro
+mountGradientASCII(document.querySelector(".stage .gascii"), {
+  colors: ["#1e3fd8", "#f6f8ff", "#a5d8ff", "#38bdf8"], shape: "horizon", cellSize: 18,
+  density: 0.8, clickEffect: "wave"
 });
 
 // ===== Cavernícola ASCII con glitch (WebGL). Sin WebGL o con reduced-motion queda la imagen estática.
