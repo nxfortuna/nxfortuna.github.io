@@ -90,9 +90,9 @@ nav .links a:hover{color:var(--ink)}
 .why .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
 .why h2{font-size:clamp(2rem,4vw,2.75rem)}
 .why p{color:var(--muted);margin-top:18px;max-width:52ch;font-size:1.08rem}
-.evidence{margin:0;position:relative;overflow:hidden;border-radius:16px;background:#0f0f12;padding:36px;color:#ececef;--muted:#b4b4bd;--accent:#8ea2ff}
+.evidence{margin:0;position:relative;overflow:hidden;border-radius:16px;background:#0f0f12;padding:36px;color:#ececef;--muted:#d6d6de;--accent:#c7d2ff}
 .evidence .pb{position:absolute;inset:0}
-.evidence blockquote,.evidence figcaption{position:relative;z-index:1}
+.evidence blockquote,.evidence figcaption{position:relative;z-index:1;text-shadow:0 1px 14px #0f0f12,0 0 4px #0f0f12}
 .pixel-blast-container{overflow:hidden}
 .pixel-blast-canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
 .evidence blockquote{margin:0;font-size:1.2rem;line-height:1.5;letter-spacing:-.01em}
@@ -312,7 +312,7 @@ mountGradientASCII(document.querySelector(".stage .gascii"), {
 
 // Tarjeta de evidencia: PixelBlast (React Bits) en cobalto, tenue para no tapar el texto
 mountPixelBlast(document.querySelector(".evidence .pb"), {
-  color: "#2346d6", accentColor: "#8ea2ff", pixelSize: 3, patternDensity: 0.9, glow: 0.3, edgeFade: 0.3, intro: false
+  color: "#2346d6", accentColor: "#8ea2ff", pixelSize: 3, patternDensity: 2, patternScale: 1.5, glow: 0.3, edgeFade: 0, intro: false
 });
 
 // ===== Cavernícola ASCII con glitch (WebGL). Sin WebGL o con reduced-motion queda la imagen estática.
