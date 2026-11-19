@@ -90,7 +90,11 @@ nav .links a:hover{color:var(--ink)}
 .why .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
 .why h2{font-size:clamp(2rem,4vw,2.75rem)}
 .why p{color:var(--muted);margin-top:18px;max-width:52ch;font-size:1.08rem}
-.evidence{margin:0;border-left:3px solid var(--accent);padding:4px 0 4px 28px}
+.evidence{margin:0;position:relative;overflow:hidden;border-radius:16px;background:#0f0f12;padding:36px;color:#ececef;--muted:#b4b4bd;--accent:#8ea2ff}
+.evidence .pb{position:absolute;inset:0}
+.evidence blockquote,.evidence figcaption{position:relative;z-index:1}
+.pixel-blast-container{overflow:hidden}
+.pixel-blast-canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
 .evidence blockquote{margin:0;font-size:1.2rem;line-height:1.5;letter-spacing:-.01em}
 .evidence figcaption{margin-top:20px;font-size:.84rem;line-height:1.55;color:var(--muted)}
 .evidence cite{font-style:italic}
@@ -149,7 +153,6 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
 
 <header class="hero"><div class="wrap"><div class="stage"><div class="gascii"></div><div class="stage-in">
   <div>
-    <div class="eyebrow">Investigación y desarrollo en salud</div>
     <h1>Menos trabajo manual, <span>más tiempo</span> para lo clínico.</h1>
     <p class="sub">Construyo herramientas que hacen el trabajo repetitivo del laboratorio clínico y el banco de sangre.</p>
     <div class="btns"><a class="btn primary" href="#proyectos">Ver proyectos</a><a class="btn ghost" href="#contacto">Contacto</a></div>
@@ -168,7 +171,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
     <h2>Por qué automatizar</h2>
     <p>Copiar resultados, contar pruebas y transcribir registros consume horas del laboratorio y abre la puerta a errores de transcripción. Mi trabajo es encontrar esos pasos y convertirlos en flujos digitales, para que el profesional dedique su atención a leer e interpretar, no a copiar ni a contar.</p>
   </div>
-  <figure class="evidence">
+  <figure class="evidence"><div class="pb"></div>
     <blockquote>Una revisión sistemática de 44 estudios sobre profesionales de laboratorio clínico encontró que la sobrecarga de trabajo, la falta de personal y la poca automatización de los flujos se asocian con agotamiento emocional, menor satisfacción laboral y mayor riesgo de error diagnóstico.</blockquote>
     <figcaption>Reyes, J. P., Macasadia, A., Malabanan, M. y Chifamba, N. (2026). Job satisfaction, workload, and burnout among medical laboratory professionals: Their interrelationships and implications for workforce well-being. <cite>International Journal of Research on Multidisciplinary Studies, 1</cite>, 448. <a href="https://doi.org/10.67903/ijroms0237">doi.org/10.67903/ijroms0237</a></figcaption>
   </figure>
@@ -232,6 +235,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
 <footer><div class="wrap">© <span id="year"></span> Andrés Hernández</div></footer>
 
 <script src="gradient-ascii.js"></script>
+<script src="pixel-blast.js"></script>
 <script>
 /* ===== Datos editables =====
    antes_min / despues_min: minutos por ciclo (un reporte, un envío...)
@@ -304,6 +308,11 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 mountGradientASCII(document.querySelector(".stage .gascii"), {
   colors: ["#1e3fd8", "#f6f8ff", "#a5d8ff", "#38bdf8"], shape: "horizon", cellSize: 18, characters: " ATGC", flicker: 0.9,
   density: 0.8, clickEffect: "wave"
+});
+
+// Tarjeta de evidencia: PixelBlast (React Bits) en cobalto, tenue para no tapar el texto
+mountPixelBlast(document.querySelector(".evidence .pb"), {
+  color: "#2346d6", accentColor: "#8ea2ff", pixelSize: 3, patternDensity: 0.9, glow: 0.3, edgeFade: 0.3, intro: false
 });
 
 // ===== Cavernícola ASCII con glitch (WebGL). Sin WebGL o con reduced-motion queda la imagen estática.
