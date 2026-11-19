@@ -60,7 +60,11 @@ nav .links a:hover{color:var(--ink)}
 .hero h1 span{color:var(--accent)}
 .hero .sub{color:var(--muted);font-size:1.15rem;max-width:44ch;margin:24px 0 36px}
 .caveman{margin:0;justify-self:end;width:100%;max-width:553px;background:#0f0f12;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
-.caveman .scr{position:relative}
+.caveman{position:relative;overflow:hidden}
+.caveman .scr{position:relative;z-index:1}
+.caveman .gascii{position:absolute;inset:0;width:auto;height:auto}
+.gradient-ascii-container{position:relative;width:100%;height:100%;overflow:hidden}
+.gradient-ascii-canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
 .caveman img{display:block;width:100%;height:auto}
 .caveman canvas{position:absolute;inset:0;width:100%;height:100%;display:none}
 .caveman.gl img{visibility:hidden}
@@ -135,7 +139,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
     <p class="sub">Construyo herramientas que hacen el trabajo repetitivo del laboratorio clínico y el banco de sangre.</p>
     <div class="btns"><a class="btn primary" href="#proyectos">Ver proyectos</a><a class="btn ghost" href="#contacto">Contacto</a></div>
   </div>
-  <figure class="caveman" aria-hidden="true"><div class="scr"><img src="img/caveman.png" alt="" width="1014" height="960" decoding="async"><canvas></canvas></div></figure>
+  <figure class="caveman" aria-hidden="true"><div class="gascii"></div><div class="scr"><img src="img/caveman.png" alt="" width="1014" height="960" decoding="async"><canvas></canvas></div></figure>
 </div></header>
 
 <div class="impact"><div class="wrap reveal" aria-label="Impacto medido">
@@ -201,6 +205,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
 
 <footer><div class="wrap">© <span id="year"></span> Andrés Hernández</div></footer>
 
+<script src="gradient-ascii.js"></script>
 <script>
 /* ===== Datos editables =====
    antes_min / despues_min: minutos por ciclo (un reporte, un envío...)
@@ -269,9 +274,15 @@ const io = new IntersectionObserver(entries => {
   }
 }, { threshold: 0.15 });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+// Fondo del panel: GradientASCII (React Bits), luz cobalto que sube desde abajo
+mountGradientASCII(document.querySelector(".caveman .gascii"), {
+  colors: ["#1e3fd8", "#4f6bff", "#8ea2ff", "#dfe5ff"], shape: "rise", cellSize: 14,
+  density: 0.7, glyphOpacity: 0.6, gradientOpacity: 0.55, glow: 0.25, grain: 0.06, clickEffect: "wave", intro: false
+});
+
 // ===== Cavernícola ASCII con glitch (WebGL). Sin WebGL o con reduced-motion queda la imagen estática.
 (async () => {
-  const fig = document.querySelector(".caveman"), img = fig.querySelector("img"), cv = fig.querySelector("canvas");
+  const fig = document.querySelector(".caveman"), img = fig.querySelector(".scr img"), cv = fig.querySelector(".scr canvas");
   const gl = !reduce && cv.getContext("webgl", { premultipliedAlpha: true });
   if (!gl) return;
   await img.decode().catch(() => {});
@@ -287,19 +298,18 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
     gl.viewport(0, 0, cv.width, cv.height);
   }
   const vs = "attribute vec2 p;varying vec2 uv;void main(){uv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}";
-  const fs = `precision mediump float;varying vec2 uv;uniform sampler2D t;uniform float time,burst;uniform vec3 ink,acc;
+  const fs = `precision mediump float;varying vec2 uv;uniform sampler2D t;uniform float time,burst;
     float r(float x){return fract(sin(x*12.9898)*43758.5453);}
     void main(){
       vec2 p=uv; float line=floor(uv.y*40.); float tick=floor(time*14.);
       float slice=step(1.-burst*.45,r(line*1.7+tick));
       p.x+=slice*(r(line*3.1+tick)-.5)*.12*burst;
-      float a=texture2D(t,p).a;
-      float g=texture2D(t,p+vec2(.004+.03*burst,0.)).a;
+      vec2 off=vec2(.003+.025*burst,0.);
+      vec4 c0=texture2D(t,p), cr=texture2D(t,p+off), cb=texture2D(t,p-off);
       float scan=.96+.04*sin(uv.y*700.+time*6.);
       float flick=.94+.06*r(tick+uv.y);
-      float al=clamp(a+g*(1.-a)*.85,0.,1.)*scan*flick;
-      vec3 c=(ink*a+acc*g*(1.-a))*scan*flick;
-      gl_FragColor=vec4(c,al);}`;
+      float al=max(c0.a,max(cr.a,cb.a));
+      gl_FragColor=vec4(vec3(cr.r,c0.g,cb.b)*scan*flick,al*scan*flick);}`;
   const sh = (type, src) => { const o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o); return o; };
   const prog = gl.createProgram(); gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
   gl.linkProgram(prog); if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return; gl.useProgram(prog);
@@ -310,8 +320,6 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
   gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
   for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
   const U = n => gl.getUniformLocation(prog, n);
-  const colores = () => { gl.uniform3fv(U("ink"), [.925, .925, .937]); gl.uniform3fv(U("acc"), [.557, .635, 1]); }; // panel siempre oscuro
-  colores();
   pintarTexto(); fig.classList.add("gl");
   new ResizeObserver(pintarTexto).observe(img);
   // ráfagas cortas cada pocos segundos; al pasar el mouse el glitch sube
