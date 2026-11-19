@@ -82,6 +82,18 @@ nav .links a:hover{color:var(--ink)}
   .hero .sub{font-size:1.05rem;margin:18px 0 28px}
 }
 
+/* enfoque */
+.why{padding:96px 0;border-top:1px solid var(--line)}
+.why .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.why h2{font-size:clamp(2rem,4vw,2.75rem)}
+.why p{color:var(--muted);margin-top:18px;max-width:52ch;font-size:1.08rem}
+.evidence{margin:0;border-left:3px solid var(--accent);padding:4px 0 4px 28px}
+.evidence blockquote{margin:0;font-size:1.2rem;line-height:1.5;letter-spacing:-.01em}
+.evidence figcaption{margin-top:20px;font-size:.84rem;line-height:1.55;color:var(--muted)}
+.evidence cite{font-style:italic}
+.evidence a{color:var(--accent);word-break:break-all}
+@media (max-width:860px){.why{padding:72px 0}.why .wrap{grid-template-columns:1fr;gap:36px}}
+
 /* proyectos */
 #proyectos{padding:96px 0;border-top:1px solid var(--line)}
 #proyectos h2{font-size:clamp(2rem,4vw,2.75rem)}
@@ -147,6 +159,17 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
   <div class="stat"><b class="num" data-count="acum">0</b><span>horas devueltas desde que cada herramienta entró en uso</span></div>
   <div class="stat"><b class="num" data-count="produccion">0</b><span>herramientas en producción</span></div>
 </div></div>
+
+<section id="enfoque" class="why"><div class="wrap reveal">
+  <div>
+    <h2>Por qué automatizar</h2>
+    <p>Copiar resultados, contar pruebas y transcribir registros consume horas del laboratorio y abre la puerta a errores de transcripción. Mi trabajo es encontrar esos pasos y convertirlos en flujos digitales, para que el profesional dedique su atención a leer e interpretar, no a copiar ni a contar.</p>
+  </div>
+  <figure class="evidence">
+    <blockquote>Una revisión sistemática de 44 estudios sobre profesionales de laboratorio clínico encontró que la sobrecarga de trabajo, la falta de personal y la poca automatización de los flujos se asocian con agotamiento emocional, menor satisfacción laboral y mayor riesgo de error diagnóstico.</blockquote>
+    <figcaption>Reyes, J. P., Macasadia, A., Malabanan, M. y Chifamba, N. (2026). Job satisfaction, workload, and burnout among medical laboratory professionals: Their interrelationships and implications for workforce well-being. <cite>International Journal of Research on Multidisciplinary Studies, 1</cite>, 448. <a href="https://doi.org/10.67903/ijroms0237">doi.org/10.67903/ijroms0237</a></figcaption>
+  </figure>
+</div></section>
 
 <section id="proyectos"><div class="wrap">
   <div class="reveal">
