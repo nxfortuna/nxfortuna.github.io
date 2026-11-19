@@ -86,11 +86,14 @@ nav .links a:hover{color:var(--ink)}
 .row .metric b small{font-size:.42em;color:var(--muted);letter-spacing:0;margin-left:4px;font-weight:500}
 .row .metric .speed{white-space:nowrap;font:500 .85rem "Geist Mono",monospace;color:var(--accent);margin-bottom:10px}
 .row .metric span{display:block;color:var(--muted);font-size:.86rem;margin-top:8px;line-height:1.4}
+.row .shot{grid-column:2 / -1;margin:8px 0 0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);aspect-ratio:16/9}
+.row .shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
 .row.lead h3{font-size:clamp(1.6rem,2.6vw,1.95rem)}
 .row.lead .metric b{font-size:3.4rem}
 @media (max-width:860px){
   .row{grid-template-columns:1fr;gap:14px;padding:28px 0}
   .row .metric{margin-top:6px}
+  .row .shot{grid-column:1;margin-top:10px}
   .row.lead .metric b{font-size:2.8rem}
 }
 
@@ -147,18 +150,21 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
       <div><h3>Middleware de control de calidad externo</h3><p class="ctx">Abbott Alinity ci → EDCNet · Banco de sangre</p></div>
       <p class="pitch">Lee los controles de calidad directo del equipo y los sube solos a EDCNet, con alertas de límites y vencimientos. Lo que era una hora diaria de transcripción ahora es un clic.</p>
       <div class="metric"></div>
+      <figure class="shot"><img src="img/edcnet.webp" alt="Pantalla de envío a EDCNet con controles de calidad de demostración" width="1400" height="822" loading="lazy" decoding="async"></figure>
     </article>
 
     <article class="row lead reveal" data-id="abrehojas">
       <div><h3>Abrehojas 3000</h3><p class="ctx">Reportes de aspirado de médula ósea</p></div>
       <p class="pitch">Convierte la exportación del LIS en el reporte de cada paciente en segundos, sin copiar a mano ni duplicar órdenes.</p>
       <div class="metric"></div>
+      <figure class="shot"><img src="img/abrehojas.webp" alt="Generador de reportes con pacientes de demostración y una orden duplicada detectada" width="1400" height="1182" loading="lazy" decoding="async"></figure>
     </article>
 
     <article class="row reveal" data-id="remisiones">
       <div><h3>Estadísticas de remisiones</h3><p class="ctx">Instituto Nacional de Cancerología</p></div>
       <p class="pitch">Cuenta solo las pruebas de todas las remisiones del mes y entrega la estadística lista en Excel.</p>
       <div class="metric"></div>
+      <figure class="shot"><img src="img/remisiones.webp" alt="Estadísticas de remisiones procesando archivos de demostración" width="1400" height="1445" loading="lazy" decoding="async"></figure>
     </article>
 
     <article class="row reveal" data-id="captacion">
@@ -171,6 +177,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
       <div><h3>App de entrenamiento de enfermería</h3><p class="ctx">Instituto Nacional de Cancerología</p></div>
       <p class="pitch">App instalable con módulos de formación, quiz, rankings y certificados.</p>
       <div class="metric"></div>
+      <figure class="shot"><img src="img/inc.webp" alt="Pantalla de módulos de aprendizaje de la app de enfermería" width="1400" height="776" loading="lazy" decoding="async"></figure>
     </article>
   </div>
 </div></section>
