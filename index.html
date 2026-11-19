@@ -59,18 +59,23 @@ nav .links a:hover{color:var(--ink)}
 .hero h1{font-size:clamp(2.3rem,4.6vw,3.4rem);line-height:1.08;letter-spacing:-.035em}
 .hero h1 span{color:var(--accent)}
 .hero .sub{color:var(--muted);font-size:1.15rem;max-width:44ch;margin:24px 0 36px}
-.impact{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:32px;display:grid;gap:28px}
-.impact .big b{display:block;font:600 clamp(4rem,9vw,6rem)/.95 "Geist",sans-serif;letter-spacing:-.05em}
-.impact .big b small{font-size:.4em;letter-spacing:-.02em;color:var(--muted);margin-left:6px}
-.impact .big > span{color:var(--muted)}
-.impact .pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;border-top:1px solid var(--line);padding-top:24px}
-.impact .pair b{display:block;font:600 2.2rem/1 "Geist",sans-serif;letter-spacing:-.04em;margin-bottom:6px}
-.impact .pair span{color:var(--muted);font-size:.9rem;line-height:1.4;display:block}
+.caveman{margin:0;justify-self:end;max-width:100%;background:#0f0f12;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.caveman .scr{position:relative}
+.caveman pre{margin:0;font:400 min(7px,calc((100vw - 76px) / 60))/1.2 "Geist Mono",monospace;color:#ececef;letter-spacing:0;white-space:pre;user-select:none}
+.caveman canvas{position:absolute;inset:0;width:100%;height:100%;display:none}
+.caveman.gl pre{visibility:hidden}
+.caveman.gl canvas{display:block}
+.impact{border-top:1px solid var(--line);padding:48px 0}
+.impact .wrap{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:end}
+.impact b{display:block;font:600 2.4rem/1 "Geist",sans-serif;letter-spacing:-.04em;margin-bottom:8px}
+.impact .big b{font-size:clamp(3.6rem,7vw,5.2rem);letter-spacing:-.05em}
+.impact b small{font-size:.4em;color:var(--muted);letter-spacing:-.01em;margin-left:6px;font-weight:500}
+.impact .stat > span{color:var(--muted);font-size:.92rem;line-height:1.4;display:block;max-width:30ch}
+@media (max-width:860px){.caveman{justify-self:center}.impact .wrap{grid-template-columns:1fr 1fr;gap:28px}.impact .big{grid-column:1 / -1}}
 @media (max-width:860px){
   .hero{padding:48px 0 64px}
   .hero .wrap{grid-template-columns:1fr;gap:40px}
   .hero .sub{font-size:1.05rem;margin:18px 0 28px}
-  .impact{padding:24px}
 }
 
 /* proyectos */
@@ -130,14 +135,59 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
     <p class="sub">Construyo herramientas que hacen el trabajo repetitivo del laboratorio clínico y el banco de sangre.</p>
     <div class="btns"><a class="btn primary" href="#proyectos">Ver proyectos</a><a class="btn ghost" href="#contacto">Contacto</a></div>
   </div>
-  <div class="impact reveal" aria-label="Impacto medido">
-    <div class="big"><b class="num"><span data-count="horas">0</span><small>h/mes</small></b><span>de trabajo manual que ya no hace nadie</span></div>
-    <div class="pair">
-      <div><b class="num" data-count="acum">0</b><span>horas devueltas desde que cada herramienta entró en uso</span></div>
-      <div><b class="num" data-count="produccion">0</b><span>herramientas en producción</span></div>
-    </div>
-  </div>
+  <figure class="caveman" aria-hidden="true"><div class="scr"><pre>     t1i1iii11iitL
+fftttttttfftt1i;::itttt1tt
+tiiiii;iiii;;i;i;;:,;1tftttttt
+ii;ii1i;,...;i11iii;;;111tttf1ifLf
+11i;::,.,:i1111i:;;ii;ii;itt1111111
+;;:;;;;11tt;:i1:::,;iiii;i11i111111i1
+1i11;;1tf1::it;,;itffttfffftt11iii;1ii
+;;;,;i1f;,:;1;i1tLLftfLLLffffffftfi,;;;i
+;;,;t1t;,;,;i:tiffff LLLLfffffftff  ..:ti;
+1:;11i1,::,i;;itLLL  LLLLLLLLLfffft  , ,tf;
+,,1i;i;:::;;:itLff tfi1fttfffLLLfLLf   : iCi
+,:i;ii::,:::;111i:;;;:;;:;ii;;ifL        ,iCti
+,:11;;::,,::;i:;::::::,,:::::;;;;i11it1fL i: Li                    1tt1
+i1i;:;.:;,,,,:,::::::;;;;;:,,:::,:11:;iiit1;;tf                   :;;iii1i11111
+1i;i;:::::,,;,:::::::::::,,..,:,::,::,::;:,:1i1t                t;1ii;;::;;;;iit.
+;;;;;;:,,;:;:.,:;;;,:::;;,,..,:;i1t: :i;,.;:t;;f                11fft  fLf111iif:
+;i;::,;:.:;:,,,::;;:::,,,::,;;;if    i,:::::;f;;t              L;tttt t1;1tttftt:
+ii:,:,:,:;:,,.:;::;;;iii;;ii1i1tffff   : :.;:tt:i              Littttfii1ft11tt;
+i:,:,,,,;i,.,,:;:;;;iiiii111i11ii1ttf    .:,:111,              11tttft11ttt11tt:
+:::,,,;;i:.,,,:;::;i;i;i1i1tti;1 LftfL    .:,11t1.            f1ftfftit1ttt11t1
+,:,,,:;i:,:,:,,:::;;iiii11tt1;f LLfft1;:if:.,iittf;          :;:;1111t11ttt1tf;
+:,,,,,;;:,.;:,,:,::;iiii11iitt1;;:,:,:;:i1.:,i;tiLf:         :1itt1111ii;ii;it,
+,,,.,,;::,,::,::,::;;;;i1i;ttti:,:....,;: .,,;1:Ltf1        1CCfti111ii;ii1;1;
+::,.:.:;:,:;;,:,,:,:,:iii;t1iii1iii1i.,:;:..,i1:iLLL:      tf1iiiii;;;;;i;;;i,
+::,;,,:i;;,;;i..:,,,;iiii1i;ii;i;;1i:1;.;11:.:i1;ifftt              Lff      t:
+:,::,,,:i;:;;i..,,.:i;;iii;:;:;;;ii,;1:,:;i1i,:i1i1LfffLffff11111;11ttt1tftL C:
+:,:.,;,i1:,;;;;,,.:i:i;;;:,;,;;;:;::i;:::,:i1;.;:tffttfff1tttfLLL  tfffti1iii,
+,,,.:;:;;;,,;;;;:.:;;,:i,.,,,,,,,,,,,::;:.,::i;;1:LfftfftitfLLffffffttfttffft
+:.,.:;;,:;:,::::;,::,,i,.::,,:;;:;::::,.,...;1;iiiftftffittf1;1i1i1tttiitttttf
+,:,.,::::;,.:,:,,,i;:;,.....,,,....:,::...,:;ii1;ftttffittft;111;;tffffi11ft11.
+,;,.::::::.,:::,.,;;:,... ...,. .   .....,;:;:1;1t1ttf11t1111iii1ttftffLf1iit1:
+,:,,::;;::..;:::..::,.,..  ,,... . ........:;:,itt11t11t1ii111i1tt11i1titf1i;:
+.,;,;;::,,..:::,.,,,...........  . ......:,i::;ttt111tt1ii111iii1i;i1i;:;:;1i1
+,,:,,;:;,:.,::,..,,,........ . .  ....:,.:iii,tt11tt1i1;iiii;iii1;:;;:;;,;;;1,
+::,,,:::,.,,,,...,:......   ..       ..:,:;;:it1i111iii;11i;:iii;:;:,;i::;;i::
+.,,.,,:;.,,...,,... .. .   ...  .. .,.:::i;:;f11tt11i1111i:;i1:::;;;,:,;i;,:
+.,,.::,:,.,,... .. .....   ... ...,,.,:;ii:1ft11tt1111i;iii;;::;;,,::,:;,:
+,,.,::;:,.,,,,...  ....   .  ... ...:,:,:itf1tft111t1ii1ii;::;;:,:,,:,:;
+,,.::,i,,..,:,..    ...  ....    . :;,:i1fttfftftt11i1ii;;;::::::::::,             f L
+,,,,,,:,..,.:,.         .  .. .,:,:;:1ffffffffft1ttt1ii;i;::::,,,,,:.:ftit   ft1i;1tttt11f
+.,.,.,,.. :,,.  .   .     ,;,:;;,ii1ffffffffffftt1t11ii;:::::::,,,:.:;, .;1:,:;:;iii1111i111ttfL
+..,:....,.;,,,.        .,;;:;iittLfffffffffffftf11ii;:;:,::::,,,,:.:;11;;ffLt;:,;i;:;;i;i;;:;:;;;;;
+..,....   :,,,.. .  .:::;;;itffffffffftfffft11ii;::;:::,,::,:,,,:,:1:,;ii:;1ft ;:;;;;;iii;iiiiiiiii:
+,.,.....  ,,,:... .:i;,i1tLLffffffffLttttti;;;;:,:,,:,,,,,,:,.,:,;:;ii:;,1i;;tt111;1ttffLCLC      tt
+,..,.,... ::::::::i11tfLLLfffffffffftt11i;;::,,,.:,,,,,,,,,,,,:,:;i1i;;:,i;i;1iii;iii;;i11111tt1tfLt
+ ....,...,1;iiii1tfffffffffftffttt11iii;::,::,..,,,.,,,,.:,;;,:::::i1;:;:;:iiii,;;;;;:;;;;:;:;;::,1L</pre><canvas></canvas></div></figure>
 </div></header>
+
+<div class="impact"><div class="wrap reveal" aria-label="Impacto medido">
+  <div class="stat big"><b class="num"><span data-count="horas">0</span><small>h/mes</small></b><span>de trabajo manual que ya no hace nadie</span></div>
+  <div class="stat"><b class="num" data-count="acum">0</b><span>horas devueltas desde que cada herramienta entró en uso</span></div>
+  <div class="stat"><b class="num" data-count="produccion">0</b><span>herramientas en producción</span></div>
+</div></div>
 
 <section id="proyectos"><div class="wrap">
   <div class="reveal">
@@ -264,6 +314,66 @@ const io = new IntersectionObserver(entries => {
   }
 }, { threshold: 0.15 });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+// ===== Cavernícola ASCII con glitch (WebGL). Sin WebGL o con reduced-motion queda el <pre> estático.
+(async () => {
+  const fig = document.querySelector(".caveman"), pre = fig.querySelector("pre"), cv = fig.querySelector("canvas");
+  const gl = !reduce && cv.getContext("webgl", { premultipliedAlpha: true });
+  if (!gl) return;
+  await document.fonts.ready;
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const tex2d = document.createElement("canvas"), ctx = tex2d.getContext("2d");
+  function pintarTexto() {
+    const r = pre.getBoundingClientRect(), cs = getComputedStyle(pre), fs = parseFloat(cs.fontSize), lh = parseFloat(cs.lineHeight);
+    tex2d.width = cv.width = Math.round(r.width * dpr); tex2d.height = cv.height = Math.round(r.height * dpr);
+    ctx.clearRect(0, 0, tex2d.width, tex2d.height); ctx.scale(dpr, dpr);
+    ctx.font = `400 ${fs}px "Geist Mono", monospace`; ctx.textBaseline = "top"; ctx.fillStyle = "#fff";
+    pre.textContent.split("\n").forEach((l, i) => ctx.fillText(l, 0, i * lh + (lh - fs) / 2));
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    gl.bindTexture(gl.TEXTURE_2D, tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tex2d);
+    gl.viewport(0, 0, cv.width, cv.height);
+  }
+  const vs = "attribute vec2 p;varying vec2 uv;void main(){uv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}";
+  const fs = `precision mediump float;varying vec2 uv;uniform sampler2D t;uniform float time,burst;uniform vec3 ink,acc;
+    float r(float x){return fract(sin(x*12.9898)*43758.5453);}
+    void main(){
+      vec2 p=uv; float line=floor(uv.y*48.); float tick=floor(time*14.);
+      float slice=step(1.-burst*.45,r(line*1.7+tick));
+      p.x+=slice*(r(line*3.1+tick)-.5)*.12*burst;
+      float a=texture2D(t,p).a;
+      float g=texture2D(t,p+vec2(.004+.03*burst,0.)).a;
+      float scan=.96+.04*sin(uv.y*700.+time*6.);
+      float flick=.94+.06*r(tick+uv.y);
+      float al=clamp(a+g*(1.-a)*.85,0.,1.)*scan*flick;
+      vec3 c=(ink*a+acc*g*(1.-a))*scan*flick;
+      gl_FragColor=vec4(c,al);}`;
+  const sh = (type, src) => { const o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o); return o; };
+  const prog = gl.createProgram(); gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog); if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return; gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+  for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+  const U = n => gl.getUniformLocation(prog, n);
+  const colores = () => { gl.uniform3fv(U("ink"), [.925, .925, .937]); gl.uniform3fv(U("acc"), [.557, .635, 1]); }; // panel siempre oscuro
+  colores();
+  pintarTexto(); fig.classList.add("gl");
+  new ResizeObserver(pintarTexto).observe(pre);
+  // ráfagas cortas cada pocos segundos; al pasar el mouse el glitch sube
+  let burst = 0, hover = 0, proxima = 1200;
+  fig.addEventListener("pointerenter", () => hover = .55);
+  fig.addEventListener("pointerleave", () => hover = 0);
+  const t0 = performance.now();
+  (function frame(now) {
+    const t = now - t0;
+    if (t > proxima) { burst = 1; proxima = t + 2500 + Math.random() * 2500; }
+    burst = Math.max(hover, burst * .9);
+    gl.uniform1f(U("time"), t / 1000); gl.uniform1f(U("burst"), burst);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(frame);
+  })(t0);
+})();
 </script>
 </body>
 </html>
