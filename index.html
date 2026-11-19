@@ -302,7 +302,7 @@ const io = new IntersectionObserver(entries => {
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 // Banner del hero: GradientASCII (React Bits), cielo sobre un horizonte oscuro
 mountGradientASCII(document.querySelector(".stage .gascii"), {
-  colors: ["#1e3fd8", "#f6f8ff", "#a5d8ff", "#38bdf8"], shape: "horizon", cellSize: 18,
+  colors: ["#1e3fd8", "#f6f8ff", "#a5d8ff", "#38bdf8"], shape: "horizon", cellSize: 18, characters: " ATGC", flicker: 0.9,
   density: 0.8, clickEffect: "wave"
 });
 
